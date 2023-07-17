@@ -16,7 +16,7 @@ async function getHotels(userId : number) {
         return 402;
     } else {
         const hotels = await HotelRepository.getHotels();
-        if (!hotels) {
+        if (!hotels || !hotels[0] ) {
             return 404;
         } else {
             return hotels;
