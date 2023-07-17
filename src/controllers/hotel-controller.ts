@@ -13,6 +13,9 @@ export async function getHotels (req : AuthenticatedRequest, res : Response) {
         }
         return res.status(httpStatus.OK).send(result); 
     } catch (err) {
+        if ( err.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND)
+        }
         return res.sendStatus(httpStatus.BAD_REQUEST)
     } 
 }
@@ -26,9 +29,12 @@ export async function getHotelInfo (req: AuthenticatedRequest, res: Response) {
         const result = await HotelServices.getHotelInfo(Id, userId)
         if ( result === 402) {
             return res.sendStatus(402)
-        }
+        } 
         return res.status(httpStatus.OK).send(result); 
     } catch (err) {
+        if ( err.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND)
+        }
         return res.sendStatus(httpStatus.BAD_REQUEST)
     }
     
