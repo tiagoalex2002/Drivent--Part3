@@ -5,17 +5,32 @@ import { AuthenticatedRequest } from '@/middlewares';
 
 export async function getHotels (req : AuthenticatedRequest, res : Response) {
     const {userId} = req;
-    const result = await HotelServices.getHotels(userId)
-    return res.status(httpStatus.OK).send(result);
+
+    try {
+        const result = await HotelServices.getHotels(userId)
+        if ( result === 402) {
+            return res.sendStatus(402)
+        }
+        return res.status(httpStatus.OK).send(result); 
+    } catch (err) {
+        return res.sendStatus(httpStatus.BAD_REQUEST)
+    } 
 }
 
 export async function getHotelInfo (req: AuthenticatedRequest, res: Response) {
     const {userId} = req;
     const { hotelId } = req.params;
-    const Id = Number(hotelId)
-    
-    const result = await HotelServices.getHotelInfo(Id, userId)
+    const Id = Number(hotelId);
 
-    return res.status(httpStatus.OK).send(result)
+    try {
+        const result = await HotelServices.getHotelInfo(Id, userId)
+        if ( result === 402) {
+            return res.sendStatus(402)
+        }
+        return res.status(httpStatus.OK).send(result); 
+    } catch (err) {
+        return res.sendStatus(httpStatus.BAD_REQUEST)
+    }
+    
 }
 
