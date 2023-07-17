@@ -10,8 +10,11 @@ export async function getHotels (req : AuthenticatedRequest, res : Response) {
         const result = await HotelServices.getHotels(userId)
         if ( result === 402) {
             return res.sendStatus(402)
+        } else if ( result === 404) {
+            return res.sendStatus(404);
+        } else {
+            return res.status(httpStatus.OK).send(result);  
         }
-        return res.status(httpStatus.OK).send(result); 
     } catch (err) {
         if ( err.name === "NotFoundError") {
             return res.sendStatus(httpStatus.NOT_FOUND)

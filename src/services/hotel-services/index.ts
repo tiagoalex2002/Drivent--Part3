@@ -11,15 +11,16 @@ async function getHotels(userId : number) {
 
     const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id)
     if (!ticket) {
-        throw notFoundError()
+        throw notFoundError();
     } else if (ticket.status === "RESERVED" || ticket.TicketType.isRemote === true || ticket.TicketType.includesHotel === false ) {
         return 402;
     } else {
         const hotels = await HotelRepository.getHotels();
         if (!hotels) {
-            throw notFoundError();
+            return 404;
+        } else {
+            return hotels;
         }
-        return hotels;
     }
 }
 
