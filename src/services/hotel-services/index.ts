@@ -16,6 +16,9 @@ async function getHotels(userId : number) {
         return 402;
     } else {
         const hotels = await HotelRepository.getHotels();
+        if (!hotels) {
+            throw notFoundError();
+        }
         return hotels;
     }
 }
@@ -33,6 +36,9 @@ async function getHotelInfo(Id: number, userId : number) {
         return 402;
     } else {
         const info = await HotelRepository.getHotelInfo(Id);
+        if (!info) {
+            throw notFoundError();
+        }
         return info;
     }
 }
